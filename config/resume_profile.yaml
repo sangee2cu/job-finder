@@ -1,0 +1,127 @@
+# Professional profile distilled from Sangeetha Rathinavel's resume.
+# Do not store the raw resume, phone, email, LinkedIn URL, or immigration details in this public repo.
+
+seniority:
+  current_level: Software Development Senior Manager
+  leadership_years: 5
+  engineering_experience_years: 15
+  hands_on_years: 10
+  team_size: 13
+  global_team: true
+
+leadership:
+  - Engineering leadership
+  - Cross-functional leadership
+  - Product roadmap and execution
+  - Architecture and technical strategy
+  - Release management
+  - Mentoring and career development
+  - Engineering, QA, and product alignment
+
+core_domains:
+  - AI & Agentic Engineering
+  - Cloud Platforms
+  - Cloud Infrastructure
+  - Distributed Systems
+  - Platform Engineering
+  - Edge Computing
+  - Hybrid Cloud
+  - On-premises Infrastructure
+  - DevOps
+  - AIOps
+  - Observability
+  - Security & Compliance
+
+platforms:
+  - Oracle Cloud Infrastructure (OCI)
+  - Oracle Private Cloud Appliance (PCA)
+  - Cloud@Customer
+  - Roving Edge Infrastructure
+  - Oracle Linux
+
+architecture:
+  - Distributed Systems
+  - Cloud-Native Architectures
+  - Microservices
+  - High Availability
+  - API Design
+  - Kubernetes
+  - Containers
+  - Infrastructure as Code
+
+ai_agentic:
+  - Codex
+  - Claude Code
+  - Model Context Protocol (MCP)
+  - Cline
+  - GitHub Copilot
+  - Multi-agent AI workflows
+  - AI-driven testing
+  - AIOps
+  - Platform lifecycle automation
+  - Security and compliance automation
+  - AI-assisted Agile planning
+
+engineering:
+  - CI/CD Pipelines
+  - Automated Testing
+  - Terraform
+  - Ansible
+  - Prometheus
+  - Grafana
+  - Helm
+  - Git
+  - Docker
+  - Java
+  - J2EE
+  - Python
+  - Jython
+  - Shell Scripting
+  - Spring
+  - Mule ESB
+  - RESTful APIs
+  - MySQL
+
+infrastructure:
+  - Compute
+  - GPU Platforms
+  - Networking
+  - ZFS Storage (ZFSSA)
+  - Cisco Switches
+  - ILOM
+  - Firmware
+  - Oracle X9/E5/GPU Servers
+  - Xen
+  - KVM
+  - iSCSI
+  - Fibre Channel
+  - NFS
+
+resume_evidence:
+  customer_scale: "1,000+ customers"
+  ai_dev_cycle_acceleration: "4X"
+  ai_testing_effort_reduction: "45%"
+  upgrade_cycle_improvement: "44% faster"
+  upgrade_downtime: "zero downtime"
+  vulnerability_reduction: "78%"
+  fedramp: true
+  roving_edge_product_launch: true
+  byoc_shift_left_testing_award: "Oracle Q4 FY24 Zeal Award"
+
+match_weights:
+  leadership: 25
+  title_seniority: 20
+  cloud_platform: 15
+  distributed_systems: 10
+  ai_agentic: 10
+  kubernetes_containers: 5
+  devops_automation: 5
+  infrastructure: 5
+  observability_security: 5
+
+stretch_signals:
+  - New cloud platforms
+  - New AI/GenAI technologies
+  - Large-scale distributed infrastructure
+  - Hands-on technical leadership
+  - Platform lifecycle automation
