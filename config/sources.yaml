@@ -1,0 +1,11 @@
+# Public ATS sources. Add the companies you want to monitor.
+# Greenhouse: board_token is the token in boards.greenhouse.io/<board_token>
+# Lever: site is the company site slug used by jobs.lever.co/<site>
+
+greenhouse: []
+  # - company: Example Company
+  #   board_token: example
+
+lever: []
+  # - company: Example Company
+  #   site: example
