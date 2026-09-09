@@ -8,10 +8,26 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: pip install -r requirements.txt
-      - run: python -m job_finder
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Discover and rank jobs
+        run: python -m job_finder
+
+      - name: Publish ranked report
+        uses: actions/upload-artifact@v4
+        with:
+          name: job-finder-report
+          path: reports/latest.md
+          if-no-files-found: error
+          retention-days: 14
