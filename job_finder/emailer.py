@@ -12,8 +12,8 @@ def send_report(path: str = "reports/latest.md") -> bool:
     port = int(os.getenv("SMTP_PORT", "587"))
     username = os.getenv("SMTP_USERNAME", "").strip()
     password = os.getenv("SMTP_PASSWORD", "")
-    recipient = os.getenv("REPORT_EMAIL", "").strip()
-    sender = os.getenv("REPORT_FROM", username).strip()
+    recipient = os.getenv("EMAIL_TO", "").strip()
+    sender = os.getenv("EMAIL_FROM", username).strip()
 
     if not all((host, username, password, recipient)):
         print("Email not configured; skipping email delivery.")
@@ -26,9 +26,19 @@ def send_report(path: str = "reports/latest.md") -> bool:
     msg["To"] = recipient
     msg.set_content(body)
 
-    with smtplib.SMTP(host, port, timeout=30) as smtp:
-        smtp.starttls()
-        smtp.login(username, password)
-        smtp.send_message(msg)
+    if port == 465:
+        with smtplib.SMTP_SSL(host, port, timeout=30) as smtp:
+            smtp.login(username, password)
+            smtp.send_message(msg)
+    else:
+        with smtplib.SMTP(host, port, timeout=30) as smtp:
+            smtp.starttls()
+            smtp.login(username, password)
+            smtp.send_message(msg)
+
     print(f"Job report emailed to {recipient}")
     return True
+
+
+if __name__ == "__main__":
+    send_report()
