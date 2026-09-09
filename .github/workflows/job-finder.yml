@@ -21,6 +21,14 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Restore job history
+        uses: actions/cache@v4
+        with:
+          path: data/jobs.db
+          key: job-finder-db-${{ github.run_id }}
+          restore-keys: |
+            job-finder-db-
+
       - name: Discover and rank jobs
         run: python -m job_finder
 
