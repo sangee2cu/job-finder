@@ -1,0 +1,32 @@
+titles:
+  - Senior Engineering Manager
+  - Senior Manager Engineering
+  - Director Engineering
+  - Director Cloud Infrastructure
+  - Director Platform Engineering
+  - AI Engineering Manager
+  - GenAI Engineering Manager
+
+locations:
+  - Raleigh
+  - Durham
+  - Cary
+  - Remote
+  - Austin
+  - Nashville
+
+skills:
+  - Cloud Infrastructure
+  - OCI
+  - Kubernetes
+  - Distributed Systems
+  - Platform Engineering
+  - AI
+  - GenAI
+  - DevOps
+  - CI/CD
+  - Observability
+  - Engineering Leadership
+
+minimum_match_score: 80
+notification_score: 85
