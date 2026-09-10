@@ -18,12 +18,18 @@ DEFAULT_INDEED_SEARCHES = [
     ("Senior Engineering Manager AI", "Raleigh, NC, United States"),
     ("Senior Engineering Manager Cloud Infrastructure", "Raleigh, NC, United States"),
     ("Director Engineering Platform", "Raleigh, NC, United States"),
+    ("Senior Engineering Manager AI", "Durham, NC, United States"),
+    ("Senior Engineering Manager Cloud Infrastructure", "Durham, NC, United States"),
+    ("Senior Engineering Manager AI", "Cary, NC, United States"),
+    ("Senior Engineering Manager Cloud Infrastructure", "Cary, NC, United States"),
+    ("AI Engineering Manager", "Austin, TX, United States"),
+    ("Engineering Manager AI Infrastructure", "Austin, TX, United States"),
+    ("Engineering Manager Cloud Infrastructure", "Nashville, TN, United States"),
+    ("Senior Engineering Manager AI", "Nashville, TN, United States"),
     ("AI Engineering Manager", "Remote, United States"),
     ("Senior Engineering Manager AI", "Remote, United States"),
     ("Senior Manager Software Engineering Cloud", "Remote, United States"),
     ("Director Platform Engineering", "Remote, United States"),
-    ("Engineering Manager AI Infrastructure", "Austin, TX, United States"),
-    ("Engineering Manager Cloud Infrastructure", "Nashville, TN, United States"),
 ]
 
 
@@ -54,7 +60,6 @@ def is_us_location(location: str) -> bool:
     if "united states" in text or " usa " in f" {text} " or text.endswith(" usa"):
         return True
     if "remote" in text:
-        # A remote posting is accepted only when it explicitly identifies the U.S.
         return "united states" in text or "usa" in text or "us" in text.split()
     return bool(re.search(r"\b[A-Z]{2}\b", location.upper()) and re.search(r"\b(?:" + "|".join(US_STATE_CODES) + r")\b", location.upper()))
 
