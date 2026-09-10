@@ -20,22 +20,44 @@ TARGET_CITY_STATES = {
     "austin, tx", "nashville, tn",
 }
 
+# Indeed is a useful broad source, but GitHub Actions may receive anti-bot
+# responses. Keep multiple queries so the agent still finds roles when some
+# searches return no cards.
 DEFAULT_INDEED_SEARCHES = [
-    ("Senior Engineering Manager AI", "Raleigh, NC, United States"),
-    ("Senior Engineering Manager Cloud Infrastructure", "Raleigh, NC, United States"),
-    ("Director Engineering Platform", "Raleigh, NC, United States"),
-    ("Senior Engineering Manager AI", "Durham, NC, United States"),
-    ("Senior Engineering Manager Cloud Infrastructure", "Durham, NC, United States"),
-    ("Senior Engineering Manager AI", "Cary, NC, United States"),
-    ("Senior Engineering Manager Cloud Infrastructure", "Cary, NC, United States"),
-    ("AI Engineering Manager", "Austin, TX, United States"),
+    ("Senior Engineering Manager", "Raleigh, NC, United States"),
+    ("Senior Software Engineering Manager", "Raleigh, NC, United States"),
+    ("Engineering Manager", "Raleigh, NC, United States"),
+    ("Director Software Engineering", "Raleigh, NC, United States"),
+    ("Platform Engineering Manager", "Raleigh, NC, United States"),
+    ("AI Engineering Manager", "Raleigh, NC, United States"),
+    ("Cloud Engineering Manager", "Raleigh, NC, United States"),
+    ("Senior Engineering Manager", "Durham, NC, United States"),
+    ("Senior Software Engineering Manager", "Durham, NC, United States"),
+    ("Engineering Manager", "Durham, NC, United States"),
+    ("Director Software Engineering", "Durham, NC, United States"),
+    ("Platform Engineering Manager", "Durham, NC, United States"),
+    ("AI Engineering Manager", "Durham, NC, United States"),
+    ("Cloud Engineering Manager", "Durham, NC, United States"),
+    ("Senior Engineering Manager", "Cary, NC, United States"),
+    ("Engineering Manager", "Cary, NC, United States"),
+    ("Director Software Engineering", "Cary, NC, United States"),
+    ("Senior Engineering Manager", "Austin, TX, United States"),
     ("Engineering Manager AI Infrastructure", "Austin, TX, United States"),
+    ("Director Platform Engineering", "Austin, TX, United States"),
+    ("Senior Engineering Manager", "Nashville, TN, United States"),
     ("Engineering Manager Cloud Infrastructure", "Nashville, TN, United States"),
-    ("Senior Engineering Manager AI", "Nashville, TN, United States"),
-    ("AI Engineering Manager", "Remote, United States"),
-    ("Senior Engineering Manager AI", "Remote, United States"),
-    ("Senior Manager Software Engineering Cloud", "Remote, United States"),
+    ("Director Platform Engineering", "Nashville, TN, United States"),
+    ("Senior Engineering Manager", "Remote, United States"),
+    ("Senior Software Engineering Manager", "Remote, United States"),
+    ("Engineering Manager AI", "Remote, United States"),
     ("Director Platform Engineering", "Remote, United States"),
+]
+
+# Direct public Lever boards are more reliable than Indeed in CI. These are
+# defaults so an empty sources.yaml still discovers relevant NC roles.
+DEFAULT_LEVER_SOURCES = [
+    {"company": "Versana", "site": "Versana"},
+    {"company": "Protolabs", "site": "protolabs"},
 ]
 
 NON_US_MARKERS = {
@@ -58,29 +80,20 @@ def is_target_location(location: str, allow_remote: bool = True) -> bool:
     if not text:
         return False
 
-    # Reject known international locations before any broader matching.
     if any(marker in text.split() or marker in text for marker in NON_US_MARKERS):
         return False
 
-    # Remote is allowed only when the listing explicitly identifies the U.S.
-    # (or the caller knows the search itself was for U.S. remote jobs).
     if "remote" in text:
         return allow_remote and (
             "united states" in text or " usa " in f" {text} " or text.endswith(" usa") or " us " in f" {text} "
         )
 
-    # Normalize common forms such as "Raleigh, NC" and
-    # "Raleigh, North Carolina, United States" into city/state checks.
     for target in TARGET_CITY_STATES:
         city, state = target.split(", ")
         if re.search(rf"\b{re.escape(city)}\b", text) and re.search(rf"\b{re.escape(state)}\b", text):
             return True
 
-    state_names = {
-        "nc": "north carolina",
-        "tx": "texas",
-        "tn": "tennessee",
-    }
+    state_names = {"nc": "north carolina", "tx": "texas", "tn": "tennessee"}
     for target in TARGET_CITY_STATES:
         city, state = target.split(", ")
         if re.search(rf"\b{re.escape(city)}\b", text) and re.search(rf"\b{re.escape(state_names[state])}\b", text):
@@ -89,14 +102,13 @@ def is_target_location(location: str, allow_remote: bool = True) -> bool:
     return False
 
 
-def fetch_json(url: str, params: dict | None = None) -> dict:
+def fetch_json(url: str, params: dict | None = None):
     response = requests.get(url, params=params, timeout=30, headers=HEADERS)
     response.raise_for_status()
     return response.json()
 
 
 def greenhouse_jobs(board_token: str, company: str) -> list[Job]:
-    """Fetch published jobs from a Greenhouse public job board."""
     data = fetch_json(f"https://boards-api.greenhouse.io/v1/boards/{board_token}/jobs", {"content": "true"})
     jobs = []
     for item in data.get("jobs", []):
@@ -112,7 +124,6 @@ def greenhouse_jobs(board_token: str, company: str) -> list[Job]:
 
 
 def lever_jobs(site: str, company: str) -> list[Job]:
-    """Fetch published jobs from Lever's public postings API."""
     data = fetch_json(f"https://api.lever.co/v0/postings/{site}", {"mode": "json"})
     jobs = []
     for item in data if isinstance(data, list) else []:
@@ -133,7 +144,6 @@ def lever_jobs(site: str, company: str) -> list[Job]:
 
 
 def indeed_jobs(query: str, location: str = "", limit: int = 25) -> list[Job]:
-    """Discover jobs from Indeed, keeping only the configured target locations."""
     url = "https://www.indeed.com/jobs"
     params = {"q": query}
     if location:
@@ -171,8 +181,6 @@ def indeed_jobs(query: str, location: str = "", limit: int = 25) -> list[Job]:
         job_location = location_node.get_text(" ", strip=True) if location_node else location
         description = snippet_node.get_text(" ", strip=True) if snippet_node else card.get_text(" ", strip=True)
 
-        # Indeed often displays U.S. remote listings simply as "Remote" even
-        # when the search was explicitly scoped to Remote, United States.
         if not is_target_location(job_location, allow_remote=search_is_us_remote):
             continue
 
@@ -189,8 +197,13 @@ def discover(config: dict) -> list[Job]:
     jobs = []
     for source in config.get("greenhouse", []):
         jobs.extend(greenhouse_jobs(source["board_token"], source["company"]))
-    for source in config.get("lever", []):
-        jobs.extend(lever_jobs(source["site"], source["company"]))
+
+    lever_sources = config.get("lever") or DEFAULT_LEVER_SOURCES
+    for source in lever_sources:
+        try:
+            jobs.extend(lever_jobs(source["site"], source["company"]))
+        except requests.RequestException as exc:
+            print(f"Lever source failed for {source.get('company')}: {exc}")
 
     indeed_sources = config.get("indeed") or [
         {"query": query, "location": location, "limit": 25}
