@@ -21,3 +21,12 @@ def save_job(db, job: Job) -> bool:
         job.url, job.description, job.source, job.published_at, job.score, job.explanation))
     db.commit()
     return cur.rowcount == 1
+
+
+def list_jobs(db, minimum_score: int = 0):
+    rows = db.execute("""SELECT title, company, location, url, description, source,
+        published_at, score, explanation FROM jobs
+        WHERE score >= ? ORDER BY score DESC, created_at DESC""", (minimum_score,)).fetchall()
+    return [Job(title=r[0], company=r[1], location=r[2], url=r[3], description=r[4] or "",
+                source=r[5] or "", published_at=r[6], score=r[7] or 0, explanation=r[8] or "")
+            for r in rows]
