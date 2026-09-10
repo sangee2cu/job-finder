@@ -1,7 +1,7 @@
 # Job Finder Report
 
-Generated: 2026-09-10T20:46:12.447954+00:00
-Discovered: 174 | Ranked >= 70: 80
+Generated: 2026-09-10T20:55:21.026448+00:00
+Discovered: 183 | Ranked >= 70: 84
 
 | Score | Action | Role | Company | Location | Source | Apply |
 |---:|---|---|---|---|---|---|
@@ -32,6 +32,14 @@ Discovered: 174 | Ranked >= 70: 80
 | 100 | **APPLY** | Senior Software Engineer, Data Engineering Platform | Coinbase | Remote - USA | greenhouse | [Apply](https://www.coinbase.com/careers/positions/8082199?gh_jid=8082199) |
 
 > Strong match — title: Senior Engineering Manager; leadership: manage engineers, engineering team, cross-functional, career development; cloud_platform: Platform Engineering, Observability, Security & Compliance; distributed_systems: backend systems; ai_agentic: AI, machine learning, AI platform; kubernetes_containers: Docker
+
+| 100 | **APPLY** | Engineering Manager - Raleigh | Versana | Raleigh, NC | lever | [Apply](https://jobs.lever.co/Versana/72742dc6-4f98-4fdc-b282-89de2e437401) |
+
+> Strong match — title: Senior Engineering Manager; leadership: Engineering leadership, Cross-functional leadership, Architecture and technical strategy, people management; cloud_platform: Cloud Infrastructure, Platform Engineering, Hybrid Cloud, DevOps; ai_agentic: Security and compliance automation, AI; devops_automation: Infrastructure as Code, DevOps, automation; infrastructure: infrastructure
+
+| 100 | **APPLY** | Sr. Engineering Manager - Raleigh | Versana | Raleigh, NC | lever | [Apply](https://jobs.lever.co/Versana/68e525f2-1fde-46d7-8002-c54d27db757b) |
+
+> Strong match — title: Senior Engineering Manager; leadership: Engineering leadership, Cross-functional leadership, Architecture and technical strategy, people management; cloud_platform: Cloud Infrastructure, Platform Engineering, Hybrid Cloud, DevOps; ai_agentic: Security and compliance automation, AI; devops_automation: Infrastructure as Code, DevOps, automation; infrastructure: infrastructure
 
 | 99 | **APPLY** | Director, Security Channels (North America) | Datadog | Colorado, USA, Remote; Illinois, USA, Remote; New York, New York, USA; New York, USA, Remote; San Francisco, California, USA; Texas, USA, Remote | greenhouse | [Apply](https://careers.datadoghq.com/detail/7984985/?gh_jid=7984985) |
 
@@ -64,6 +72,10 @@ Discovered: 174 | Ranked >= 70: 80
 | 90 | **APPLY** | Staff Software Engineer, Developer Infrastructure (Test Infrastructure) | Coinbase | Remote - USA | greenhouse | [Apply](https://www.coinbase.com/careers/positions/7964410?gh_jid=7964410) |
 
 > Strong match — title: technical leadership; leadership: Architecture and technical strategy, engineering team, technical strategy, engineering strategy; cloud_platform: Distributed Systems, Platform Engineering, Observability, infrastructure platform; distributed_systems: Distributed Systems, distributed architecture, reliability engineering; ai_agentic: AI, Generative AI, AI platform, AI infrastructure; kubernetes_containers: Kubernetes, Containers
+
+| 90 | **APPLY** | Technical Lead - Application Development - Raleigh | Versana | Raleigh, NC | lever | [Apply](https://jobs.lever.co/Versana/7a0e2b12-b425-4c1f-bd5a-860e1e781170) |
+
+> Strong match — title: technical leadership; leadership: Engineering leadership, technical leadership, team leadership, lead engineers; cloud_platform: Cloud Infrastructure, Platform Engineering, cloud platform, cloud services; distributed_systems: Scalability, backend systems, reliability engineering; ai_agentic: AI; kubernetes_containers: Kubernetes, Docker
 
 | 88 | **APPLY** | Staff Software Engineer, Compute Platform (Routing) | Coinbase | Remote - USA | greenhouse | [Apply](https://www.coinbase.com/careers/positions/8160557?gh_jid=8160557) |
 
@@ -192,15 +204,3 @@ Discovered: 174 | Ranked >= 70: 80
 | 80 | **REVIEW** | Senior Developer Advocate - Modern App Development | Datadog | California, USA, Remote; Nevada, USA, Remote; Texas, USA, Remote; Washington, USA, Remote | greenhouse | [Apply](https://careers.datadoghq.com/detail/7985840/?gh_jid=7985840) |
 
 > Good match — leadership: Engineering leadership, technical leadership, team leadership, manage engineers; cloud_platform: Cloud Platforms, Cloud Infrastructure, Platform Engineering, Observability; distributed_systems: Scalability; ai_agentic: AI, AI platform, AI infrastructure; kubernetes_containers: Cloud Native; devops_automation: Infrastructure as Code, deployment
-
-| 80 | **REVIEW** | Senior Software Engineer, Backend - Platform (Core AI Automation) | Coinbase | Remote - USA | greenhouse | [Apply](https://www.coinbase.com/careers/positions/8051871?gh_jid=8051871) |
-
-> Good match — leadership: engineering team, mentoring; cloud_platform: AI & Agentic Engineering, Platform Engineering, infrastructure platform; distributed_systems: Microservices, large-scale systems, backend systems; ai_agentic: AI, Generative AI, GenAI, LLM; kubernetes_containers: Docker; devops_automation: Infrastructure as Code, automation, deployment
-
-| 79 | **STRETCH** | Senior Internal Communications Manager, People | Coinbase | Remote - USA | greenhouse | [Apply](https://www.coinbase.com/careers/positions/8162914?gh_jid=8162914) |
-
-> Good match — title: Senior Engineering Manager; leadership: Cross-functional leadership, team leadership, cross-functional, manager; ai_agentic: AI, Generative AI, AI infrastructure; infrastructure: infrastructure; location: Remote
-
-| 78 | **STRETCH** | Staff Application Security Engineer | Datadog | Boston, Massachusetts, USA; Connecticut, USA, Remote; Delaware, USA, Remote; District of Columbia, USA, Remote; Maryland, USA, Remote; Massachusetts, USA, Remote; New Jersey, USA, Remote; New York, New York, USA; New York, USA, Remote; Rhode Island, USA, Remote | greenhouse | [Apply](https://careers.datadoghq.com/detail/7777798/?gh_jid=7777798) |
-
-> Good match — title: technical leadership; leadership: Engineering leadership, people management, engineering management, technical leadership; cloud_platform: AI & Agentic Engineering, Cloud Platforms, Cloud Infrastructure, Platform Engineering; ai_agentic: Platform lifecycle automation, AI, agentic, AI platform; devops_automation: Infrastructure as Code, automation; infrastructure: Networking, infrastructure, edge
