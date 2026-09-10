@@ -1,3 +1,4 @@
+import json
 import os
 from datetime import datetime, timezone
 
@@ -39,12 +40,37 @@ def write_report(jobs, path="reports/latest.md"):
     ]
     for j in selected[:50]:
         lines.append(
-            f"| {j.score} | **{recommendation(j.score)}** | {j.title} | {j.company} | "
-            f"{j.location} | {j.source} | [Apply]({j.url}) |"
+            f"| {j.score} | **{recommendation(j.score)}** | {j.title} | {j.company} | {j.location} | {j.source} | [Apply]({j.url}) |"
         )
         lines.extend(["", f"> {j.explanation}", ""])
     with open(path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
+
+
+def write_dashboard_data(jobs, path="docs/jobs.json"):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    selected = [j for j in jobs if j.score >= 70]
+    selected.sort(key=lambda j: j.score, reverse=True)
+    payload = {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "jobs": [
+            {
+                "title": j.title,
+                "company": j.company,
+                "location": j.location,
+                "url": j.url,
+                "description": j.description,
+                "source": j.source,
+                "published_at": j.published_at,
+                "score": j.score,
+                "recommendation": recommendation(j.score),
+                "explanation": j.explanation,
+            }
+            for j in selected[:100]
+        ],
+    }
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=2, ensure_ascii=False)
 
 
 def run(jobs=None):
@@ -67,6 +93,7 @@ def run(jobs=None):
             notify(job)
 
     write_report(ranked)
+    write_dashboard_data(ranked)
     send_report("reports/latest.md")
     ranked.sort(key=lambda j: j.score, reverse=True)
     print(f"Discovered {len(jobs)} jobs; {len([j for j in ranked if j.score >= minimum])} meet the match threshold.")
