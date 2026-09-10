@@ -8,84 +8,131 @@ from .models import Job
 
 
 def _norm(text: str) -> str:
+    text = re.sub(r"<[^>]+>", " ", text or "")
     return re.sub(r"[^a-z0-9+#./-]+", " ", text.lower())
 
 
+def _tokens(text: str) -> set[str]:
+    return set(re.findall(r"[a-z0-9+#./-]+", _norm(text)))
+
+
 def _hit(text: str, phrase: str) -> bool:
-    return _norm(phrase) in _norm(text)
+    ntext = _norm(text)
+    nphrase = _norm(phrase)
+    if not nphrase:
+        return False
+    return nphrase in ntext or all(word in _tokens(ntext) for word in nphrase.split())
 
 
 def _title_match(title: str, target: str) -> bool:
-    """Allow natural variants such as Director of Engineering / Engineering Director."""
+    """Match common title variants, including reordered words."""
     t = _norm(title)
     x = _norm(target)
     if not x:
         return False
     if x in t:
         return True
-    words = [w for w in re.split(r"\s+", x) if w]
-    return len(words) >= 2 and sum(w in t for w in words) >= max(2, len(words) - 1)
+    target_words = set(x.split())
+    title_words = set(t.split())
+    meaningful = target_words - {"of", "the", "and", "in", "for"}
+    return bool(meaningful) and len(meaningful & title_words) >= max(2, len(meaningful) - 1)
+
+
+def _group_score(hits: list[str]) -> float:
+    """Convert evidence count to 0..1 without requiring every keyword."""
+    if not hits:
+        return 0.0
+    if len(hits) == 1:
+        return 0.60
+    if len(hits) == 2:
+        return 0.80
+    return 1.0
 
 
 def semantic_score(job: Job, profile: dict[str, Any]) -> tuple[int, str]:
-    """Score a job against the structured resume profile.
+    """Score a job using weighted resume evidence.
 
-    The scorer is deterministic, free to run in GitHub Actions, and intentionally
-    tolerant of common title/keyword variations in ATS descriptions.
+    This intentionally rewards strong evidence instead of requiring exact keyword
+    matches. A job can score highly when it matches the user's leadership level,
+    technical domain, and AI/platform background even if the employer uses different
+    terminology from the resume.
     """
-    text = f"{job.title} {job.description}"
+    title = job.title or ""
+    description = job.description or ""
+    text = f"{title} {description}"
     weights = profile.get("match_weights", {})
+    evidence: list[str] = []
 
-    title_terms = profile.get("titles", [])
-    title_hits = [x for x in title_terms if x and _title_match(job.title, x)]
-
-    # Broad leadership seniority signals are important because many companies use
-    # titles such as Director of Engineering, Engineering Manager, or Head of Platform.
     seniority_signals = [
         "senior engineering manager", "engineering manager", "software engineering manager",
         "senior manager", "director of engineering", "engineering director", "director",
-        "head of engineering", "head of platform", "ai engineering manager", "genai engineering manager",
+        "head of engineering", "head of platform", "head of software", "ai engineering manager",
+        "genai engineering manager", "software engineering director", "platform engineering manager",
     ]
-    seniority_hits = [x for x in seniority_signals if _hit(job.title, x)]
+    title_terms = profile.get("titles", [])
+    title_hits = [x for x in title_terms if _title_match(title, x)]
+    seniority_hits = [x for x in seniority_signals if _hit(title, x)]
 
-    total = 0
-    evidence: list[str] = []
-
-    title_weight = int(weights.get("title_seniority", 20))
+    total = 0.0
+    title_weight = float(weights.get("title_seniority", 20))
     if title_hits or seniority_hits:
         total += title_weight
-        evidence.append(f"title: {', '.join((title_hits or seniority_hits)[:2])}")
+        evidence.append(f"title: {(title_hits or seniority_hits)[0]}")
 
     groups = {
-        "leadership": profile.get("leadership", []),
-        "cloud_platform": profile.get("platforms", []) + profile.get("core_domains", []),
-        "distributed_systems": ["Distributed Systems", "High Availability", "Microservices"],
-        "ai_agentic": profile.get("ai_agentic", []),
-        "kubernetes_containers": ["Kubernetes", "Docker", "Containers", "Helm"],
-        "devops_automation": ["CI/CD", "Terraform", "Ansible", "Infrastructure as Code", "Automated Testing"],
-        "infrastructure": profile.get("infrastructure", []),
-        "observability_security": ["Observability", "Prometheus", "Grafana", "Security", "Compliance", "FedRAMP"],
+        "leadership": profile.get("leadership", []) + [
+            "people management", "engineering management", "technical leadership",
+            "team leadership", "manage engineers", "lead engineers", "engineering team",
+            "technical strategy", "roadmap", "cross-functional",
+        ],
+        "cloud_platform": profile.get("platforms", []) + profile.get("core_domains", []) + [
+            "cloud platform", "cloud infrastructure", "platform engineering", "cloud services",
+            "hybrid cloud", "private cloud", "edge computing",
+        ],
+        "distributed_systems": [
+            "Distributed Systems", "High Availability", "Microservices", "Scalability",
+            "distributed architecture", "large scale systems", "backend systems",
+        ],
+        "ai_agentic": profile.get("ai_agentic", []) + [
+            "AI", "Artificial Intelligence", "Generative AI", "GenAI", "LLM", "AI agents",
+            "agentic", "machine learning", "AI platform", "AI infrastructure",
+        ],
+        "kubernetes_containers": ["Kubernetes", "Docker", "Containers", "Helm", "Cloud Native"],
+        "devops_automation": [
+            "CI/CD", "Terraform", "Ansible", "Infrastructure as Code", "Automated Testing",
+            "DevOps", "automation", "continuous integration", "continuous delivery",
+        ],
+        "infrastructure": profile.get("infrastructure", []) + [
+            "compute", "GPU", "networking", "storage", "bare metal", "infrastructure",
+            "servers", "hardware", "data center", "datacenter",
+        ],
+        "observability_security": [
+            "Observability", "Prometheus", "Grafana", "Security", "Compliance", "FedRAMP",
+            "monitoring", "logging", "security engineering", "reliability",
+        ],
     }
 
     for key, terms in groups.items():
-        weight = int(weights.get(key, 0))
-        hits = [term for term in terms if term and _hit(text, term)]
+        weight = float(weights.get(key, 0))
+        hits = []
+        seen = set()
+        for term in terms:
+            if term and term.lower() not in seen and _hit(text, term):
+                hits.append(term)
+                seen.add(term.lower())
         if hits and weight:
-            # One strong hit gets substantial credit; additional evidence increases it.
-            fraction = min(1.0, 0.45 + 0.20 * (len(hits) - 1))
-            contribution = round(weight * fraction)
-            total += contribution
+            total += weight * _group_score(hits)
             evidence.append(f"{key}: {', '.join(hits[:4])}")
 
-    # Location is a useful filter, but not a hard requirement because Remote roles
-    # can appear with inconsistent ATS location strings.
+    # Location is a small positive signal. Remote jobs should match Remote even when
+    # the ATS also includes a city or a broad US location.
     locations = profile.get("locations", [])
     location_hits = [x for x in locations if x and _hit(job.location, x)]
-    if location_hits:
+    if location_hits or _hit(job.location, "remote"):
         total += 5
-        evidence.append(f"location: {', '.join(location_hits[:2])}")
+        evidence.append(f"location: {', '.join(location_hits[:2]) or 'Remote'}")
 
-    total = min(100, total)
+    total = min(100, round(total))
     if total >= 85:
         label = "Strong match"
     elif total >= 70:
