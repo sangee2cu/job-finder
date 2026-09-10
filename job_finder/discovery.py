@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import re
-from urllib.parse import quote_plus, urljoin
+from urllib.parse import urljoin
 
 import requests
 from bs4 import BeautifulSoup
@@ -13,6 +13,18 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (compatible; job-finder/1.0; +https://github.com/sangee2cu/job-finder)",
     "Accept-Language": "en-US,en;q=0.9",
 }
+
+DEFAULT_INDEED_SEARCHES = [
+    ("Senior Engineering Manager AI", "Raleigh, NC"),
+    ("Senior Engineering Manager Cloud Infrastructure", "Raleigh, NC"),
+    ("Director Engineering Platform", "Raleigh, NC"),
+    ("AI Engineering Manager", "Remote"),
+    ("Senior Engineering Manager AI", "Remote"),
+    ("Senior Manager Software Engineering Cloud", "Remote"),
+    ("Director Platform Engineering", "Remote"),
+    ("Engineering Manager AI Infrastructure", "Austin, TX"),
+    ("Engineering Manager Cloud Infrastructure", "Nashville, TN"),
+]
 
 
 def fetch_json(url: str, params: dict | None = None) -> dict:
@@ -55,13 +67,7 @@ def lever_jobs(site: str, company: str) -> list[Job]:
 
 
 def indeed_jobs(query: str, location: str = "", limit: int = 25) -> list[Job]:
-    """Discover jobs from Indeed's public search results.
-
-    Indeed does not provide a general public job-search API for job seekers, so this
-    uses the public search page and extracts the job cards exposed in the HTML. It is
-    deliberately best-effort: if Indeed blocks automated access, the rest of the
-    configured sources continue to work.
-    """
+    """Discover jobs from Indeed's public search results, best-effort."""
     url = "https://www.indeed.com/jobs"
     params = {"q": query}
     if location:
@@ -98,19 +104,9 @@ def indeed_jobs(query: str, location: str = "", limit: int = 25) -> list[Job]:
         job_location = location_node.get_text(" ", strip=True) if location_node else location
         description = snippet_node.get_text(" ", strip=True) if snippet_node else card.get_text(" ", strip=True)
 
-        if href.startswith("http"):
-            job_url = href
-        else:
-            job_url = urljoin("https://www.indeed.com", href or f"/viewjob?jk={job_key}")
-
-        jobs.append(Job(
-            title=title,
-            company=company,
-            location=job_location,
-            url=job_url,
-            description=description,
-            source="indeed",
-        ))
+        job_url = href if href.startswith("http") else urljoin("https://www.indeed.com", href or f"/viewjob?jk={job_key}")
+        jobs.append(Job(title=title, company=company, location=job_location, url=job_url,
+                        description=description, source="indeed"))
         if len(jobs) >= limit:
             break
 
@@ -123,6 +119,11 @@ def discover(config: dict) -> list[Job]:
         jobs.extend(greenhouse_jobs(source["board_token"], source["company"]))
     for source in config.get("lever", []):
         jobs.extend(lever_jobs(source["site"], source["company"]))
-    for source in config.get("indeed", []):
+
+    indeed_sources = config.get("indeed") or [
+        {"query": query, "location": location, "limit": 25}
+        for query, location in DEFAULT_INDEED_SEARCHES
+    ]
+    for source in indeed_sources:
         jobs.extend(indeed_jobs(source["query"], source.get("location", ""), int(source.get("limit", 25))))
     return jobs
