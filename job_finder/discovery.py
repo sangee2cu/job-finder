@@ -14,6 +14,12 @@ HEADERS = {
     "Accept-Language": "en-US,en;q=0.9",
 }
 
+# These are the ONLY geographic targets for the job finder.
+TARGET_CITY_STATES = {
+    "raleigh, nc", "durham, nc", "cary, nc",
+    "austin, tx", "nashville, tn",
+}
+
 DEFAULT_INDEED_SEARCHES = [
     ("Senior Engineering Manager AI", "Raleigh, NC, United States"),
     ("Senior Engineering Manager Cloud Infrastructure", "Raleigh, NC, United States"),
@@ -32,7 +38,6 @@ DEFAULT_INDEED_SEARCHES = [
     ("Director Platform Engineering", "Remote, United States"),
 ]
 
-
 NON_US_MARKERS = {
     "australia", "austria", "belgium", "brazil", "canada", "china", "france", "germany",
     "india", "ireland", "israel", "italy", "japan", "mexico", "netherlands", "new zealand",
@@ -42,26 +47,46 @@ NON_US_MARKERS = {
     "noida", "paris", "berlin", "tokyo", "sydney", "melbourne", "amsterdam", "zurich",
 }
 
-US_STATE_CODES = {
-    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN",
-    "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV",
-    "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN",
-    "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", "DC",
-}
+
+def _normalized_location(location: str) -> str:
+    return re.sub(r"[^a-z0-9]+", " ", (location or "").lower()).strip()
 
 
-def is_us_location(location: str) -> bool:
-    """Return True for U.S. locations, including U.S. remote roles."""
-    text = re.sub(r"[^a-z0-9]+", " ", (location or "").lower()).strip()
+def is_target_location(location: str, allow_remote: bool = True) -> bool:
+    """Return True only for the five target cities or U.S. remote roles."""
+    text = _normalized_location(location)
     if not text:
         return False
+
+    # Reject known international locations before any broader matching.
     if any(marker in text.split() or marker in text for marker in NON_US_MARKERS):
         return False
-    if "united states" in text or " usa " in f" {text} " or text.endswith(" usa"):
-        return True
+
+    # Remote is allowed only when the listing explicitly identifies the U.S.
+    # (or the caller knows the search itself was for U.S. remote jobs).
     if "remote" in text:
-        return "united states" in text or "usa" in text or "us" in text.split()
-    return bool(re.search(r"\b[A-Z]{2}\b", location.upper()) and re.search(r"\b(?:" + "|".join(US_STATE_CODES) + r")\b", location.upper()))
+        return allow_remote and (
+            "united states" in text or " usa " in f" {text} " or text.endswith(" usa") or " us " in f" {text} "
+        )
+
+    # Normalize common forms such as "Raleigh, NC" and
+    # "Raleigh, North Carolina, United States" into city/state checks.
+    for target in TARGET_CITY_STATES:
+        city, state = target.split(", ")
+        if re.search(rf"\b{re.escape(city)}\b", text) and re.search(rf"\b{re.escape(state)}\b", text):
+            return True
+
+    state_names = {
+        "nc": "north carolina",
+        "tx": "texas",
+        "tn": "tennessee",
+    }
+    for target in TARGET_CITY_STATES:
+        city, state = target.split(", ")
+        if re.search(rf"\b{re.escape(city)}\b", text) and re.search(rf"\b{re.escape(state_names[state])}\b", text):
+            return True
+
+    return False
 
 
 def fetch_json(url: str, params: dict | None = None) -> dict:
@@ -76,7 +101,7 @@ def greenhouse_jobs(board_token: str, company: str) -> list[Job]:
     jobs = []
     for item in data.get("jobs", []):
         location = (item.get("location") or {}).get("name", "")
-        if not is_us_location(location):
+        if not is_target_location(location):
             continue
         jobs.append(Job(
             title=item.get("title", ""), company=company, location=location,
@@ -96,7 +121,7 @@ def lever_jobs(site: str, company: str) -> list[Job]:
         all_locations = categories.get("allLocations") or []
         if all_locations:
             location = ", ".join(dict.fromkeys([location, *all_locations]))
-        if not is_us_location(location):
+        if not is_target_location(location):
             continue
         description = item.get("descriptionPlain") or item.get("description") or ""
         jobs.append(Job(
@@ -108,7 +133,7 @@ def lever_jobs(site: str, company: str) -> list[Job]:
 
 
 def indeed_jobs(query: str, location: str = "", limit: int = 25) -> list[Job]:
-    """Discover U.S. jobs from Indeed's public search results, best-effort."""
+    """Discover jobs from Indeed, keeping only the configured target locations."""
     url = "https://www.indeed.com/jobs"
     params = {"q": query}
     if location:
@@ -123,6 +148,7 @@ def indeed_jobs(query: str, location: str = "", limit: int = 25) -> list[Job]:
     soup = BeautifulSoup(response.text, "html.parser")
     jobs: list[Job] = []
     seen: set[str] = set()
+    search_is_us_remote = _normalized_location(location) in {"remote united states", "remote usa", "remote us"}
 
     for card in soup.select("div.job_seen_beacon, div.cardOutline, div[data-jk]"):
         link = card.select_one("a.jcs-JobTitle, h2.jobTitle a, a[data-jk]")
@@ -145,12 +171,14 @@ def indeed_jobs(query: str, location: str = "", limit: int = 25) -> list[Job]:
         job_location = location_node.get_text(" ", strip=True) if location_node else location
         description = snippet_node.get_text(" ", strip=True) if snippet_node else card.get_text(" ", strip=True)
 
-        if not is_us_location(job_location):
+        # Indeed often displays U.S. remote listings simply as "Remote" even
+        # when the search was explicitly scoped to Remote, United States.
+        if not is_target_location(job_location, allow_remote=search_is_us_remote):
             continue
 
         job_url = href if href.startswith("http") else urljoin("https://www.indeed.com", href or f"/viewjob?jk={job_key}")
-        jobs.append(Job(title=title, company=company, location=job_location, url=job_url,
-                        description=description, source="indeed"))
+        jobs.append(Job(title=title, company=company, location=job_location,
+                        url=job_url, description=description, source="indeed"))
         if len(jobs) >= limit:
             break
 
