@@ -15,16 +15,48 @@ HEADERS = {
 }
 
 DEFAULT_INDEED_SEARCHES = [
-    ("Senior Engineering Manager AI", "Raleigh, NC"),
-    ("Senior Engineering Manager Cloud Infrastructure", "Raleigh, NC"),
-    ("Director Engineering Platform", "Raleigh, NC"),
-    ("AI Engineering Manager", "Remote"),
-    ("Senior Engineering Manager AI", "Remote"),
-    ("Senior Manager Software Engineering Cloud", "Remote"),
-    ("Director Platform Engineering", "Remote"),
-    ("Engineering Manager AI Infrastructure", "Austin, TX"),
-    ("Engineering Manager Cloud Infrastructure", "Nashville, TN"),
+    ("Senior Engineering Manager AI", "Raleigh, NC, United States"),
+    ("Senior Engineering Manager Cloud Infrastructure", "Raleigh, NC, United States"),
+    ("Director Engineering Platform", "Raleigh, NC, United States"),
+    ("AI Engineering Manager", "Remote, United States"),
+    ("Senior Engineering Manager AI", "Remote, United States"),
+    ("Senior Manager Software Engineering Cloud", "Remote, United States"),
+    ("Director Platform Engineering", "Remote, United States"),
+    ("Engineering Manager AI Infrastructure", "Austin, TX, United States"),
+    ("Engineering Manager Cloud Infrastructure", "Nashville, TN, United States"),
 ]
+
+
+NON_US_MARKERS = {
+    "australia", "austria", "belgium", "brazil", "canada", "china", "france", "germany",
+    "india", "ireland", "israel", "italy", "japan", "mexico", "netherlands", "new zealand",
+    "poland", "portugal", "singapore", "spain", "sweden", "switzerland", "united kingdom",
+    "uk", "england", "scotland", "wales", "london", "toronto", "vancouver", "dublin", "bangalore",
+    "bengaluru", "hyderabad", "pune", "gurgaon", "gurugram", "delhi", "mumbai", "chennai",
+    "noida", "paris", "berlin", "tokyo", "sydney", "melbourne", "amsterdam", "zurich",
+}
+
+US_STATE_CODES = {
+    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN",
+    "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV",
+    "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN",
+    "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", "DC",
+}
+
+
+def is_us_location(location: str) -> bool:
+    """Return True for U.S. locations, including U.S. remote roles."""
+    text = re.sub(r"[^a-z0-9]+", " ", (location or "").lower()).strip()
+    if not text:
+        return False
+    if any(marker in text.split() or marker in text for marker in NON_US_MARKERS):
+        return False
+    if "united states" in text or " usa " in f" {text} " or text.endswith(" usa"):
+        return True
+    if "remote" in text:
+        # A remote posting is accepted only when it explicitly identifies the U.S.
+        return "united states" in text or "usa" in text or "us" in text.split()
+    return bool(re.search(r"\b[A-Z]{2}\b", location.upper()) and re.search(r"\b(?:" + "|".join(US_STATE_CODES) + r")\b", location.upper()))
 
 
 def fetch_json(url: str, params: dict | None = None) -> dict:
@@ -39,6 +71,8 @@ def greenhouse_jobs(board_token: str, company: str) -> list[Job]:
     jobs = []
     for item in data.get("jobs", []):
         location = (item.get("location") or {}).get("name", "")
+        if not is_us_location(location):
+            continue
         jobs.append(Job(
             title=item.get("title", ""), company=company, location=location,
             url=item.get("absolute_url", ""), description=item.get("content", ""),
@@ -57,6 +91,8 @@ def lever_jobs(site: str, company: str) -> list[Job]:
         all_locations = categories.get("allLocations") or []
         if all_locations:
             location = ", ".join(dict.fromkeys([location, *all_locations]))
+        if not is_us_location(location):
+            continue
         description = item.get("descriptionPlain") or item.get("description") or ""
         jobs.append(Job(
             title=item.get("text", ""), company=company, location=location,
@@ -67,7 +103,7 @@ def lever_jobs(site: str, company: str) -> list[Job]:
 
 
 def indeed_jobs(query: str, location: str = "", limit: int = 25) -> list[Job]:
-    """Discover jobs from Indeed's public search results, best-effort."""
+    """Discover U.S. jobs from Indeed's public search results, best-effort."""
     url = "https://www.indeed.com/jobs"
     params = {"q": query}
     if location:
@@ -103,6 +139,9 @@ def indeed_jobs(query: str, location: str = "", limit: int = 25) -> list[Job]:
         company = company_node.get_text(" ", strip=True) if company_node else "Indeed"
         job_location = location_node.get_text(" ", strip=True) if location_node else location
         description = snippet_node.get_text(" ", strip=True) if snippet_node else card.get_text(" ", strip=True)
+
+        if not is_us_location(job_location):
+            continue
 
         job_url = href if href.startswith("http") else urljoin("https://www.indeed.com", href or f"/viewjob?jk={job_key}")
         jobs.append(Job(title=title, company=company, location=job_location, url=job_url,
