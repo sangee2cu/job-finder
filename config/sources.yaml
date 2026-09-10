@@ -1,5 +1,5 @@
 # Public ATS sources monitored by the agent.
-# These use public Greenhouse/Lever posting endpoints; no credentials are required.
+# These use public Greenhouse/Lever posting endpoints plus best-effort Indeed search.
 
 greenhouse:
   - company: Cloudflare
@@ -10,5 +10,36 @@ greenhouse:
     board_token: coinbase
 
 lever: []
-  # - company: Example Company
-  #   site: example
+
+# Indeed public search pages. Keep queries focused to avoid noisy results.
+indeed:
+  - query: "Senior Engineering Manager"
+    location: "Raleigh, NC"
+    limit: 25
+  - query: "Director Engineering"
+    location: "Raleigh, NC"
+    limit: 25
+  - query: "AI Engineering Manager"
+    location: "Raleigh, NC"
+    limit: 25
+  - query: "Platform Engineering Manager"
+    location: "Raleigh, NC"
+    limit: 25
+  - query: "Senior Engineering Manager"
+    location: "Remote"
+    limit: 25
+  - query: "AI Engineering Manager"
+    location: "Remote"
+    limit: 25
+  - query: "Director Engineering"
+    location: "Remote"
+    limit: 25
+  - query: "Cloud Infrastructure Engineering Manager"
+    location: "Remote"
+    limit: 25
+  - query: "Senior Engineering Manager"
+    location: "Austin, TX"
+    limit: 15
+  - query: "Senior Engineering Manager"
+    location: "Nashville, TN"
+    limit: 15
