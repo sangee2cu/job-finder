@@ -2,8 +2,14 @@ name: Job Finder
 
 on:
   workflow_dispatch:
+  push:
+    paths-ignore:
+      - 'docs/jobs.json'
   schedule:
     - cron: '0 12 * * 1-5'
+
+permissions:
+  contents: write
 
 jobs:
   run:
@@ -45,3 +51,11 @@ jobs:
           path: reports/latest.md
           if-no-files-found: error
           retention-days: 14
+
+      - name: Update dashboard data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/jobs.json reports/latest.md
+          git diff --cached --quiet || git commit -m "Update job finder results"
+          git push
