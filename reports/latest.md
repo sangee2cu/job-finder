@@ -1,7 +1,7 @@
 # Job Finder Report
 
-Generated: 2026-09-11T15:23:49.055293+00:00
-Discovered: 184 | Ranked >= 70: 85
+Generated: 2026-09-14T17:09:34.511575+00:00
+Discovered: 183 | Ranked >= 70: 86
 
 | Score | Action | Role | Company | Location | Source | Apply |
 |---:|---|---|---|---|---|---|
@@ -45,15 +45,19 @@ Discovered: 184 | Ranked >= 70: 85
 
 > Strong match — title: director; leadership: technical leadership, team leadership, manager, career development; cloud_platform: Cloud@Customer, Cloud Infrastructure, Hybrid Cloud, Observability; ai_agentic: AI, AI platform, AI infrastructure; infrastructure: Networking, infrastructure; observability_security: Observability, Security
 
-| 97 | **APPLY** | Group Product Manager, Financial Engineering  | Coinbase | Remote - USA | greenhouse | [Apply](https://www.coinbase.com/careers/positions/7789404?gh_jid=7789404) |
-
-> Strong match — title: Senior Engineering Manager; leadership: Engineering leadership, Cross-functional leadership, Product roadmap and execution, Architecture and technical strategy; cloud_platform: Platform Engineering, infrastructure platform; ai_agentic: AI, Generative AI, AI platform, AI infrastructure; devops_automation: automation; infrastructure: Compute, infrastructure, edge
-
 | 96 | **APPLY** | Senior Manager Product Operations, FCM Ops | Coinbase | Remote - USA | greenhouse | [Apply](https://www.coinbase.com/careers/positions/8110496?gh_jid=8110496) |
 
 > Strong match — title: Senior Engineering Manager; leadership: Engineering leadership, Cross-functional leadership, Product roadmap and execution, people management; distributed_systems: large-scale systems, reliability engineering; ai_agentic: AI, Generative AI; devops_automation: automation; infrastructure: infrastructure, edge
 
+| 92 | **APPLY** | Technical Lead - Application Development - Raleigh | Versana | Raleigh, NC | lever | [Apply](https://jobs.lever.co/Versana/7a0e2b12-b425-4c1f-bd5a-860e1e781170) |
+
+> Strong match — title: technical leadership; leadership: Engineering leadership, technical leadership, team leadership, lead engineers; cloud_platform: Cloud Platforms, Cloud Infrastructure, Platform Engineering, cloud platform; distributed_systems: Scalability, backend systems, reliability engineering; ai_agentic: Platform lifecycle automation, AI; kubernetes_containers: Kubernetes, Docker
+
 | 91 | **APPLY** | Director, Enterprise Sales | Datadog | Texas, USA, Remote | greenhouse | [Apply](https://careers.datadoghq.com/detail/7773320/?gh_jid=7773320) |
+
+> Strong match — title: director; leadership: career development; cloud_platform: Observability, infrastructure platform; ai_agentic: AI, AI platform, AI infrastructure; infrastructure: Networking, infrastructure, edge; observability_security: Observability, Security
+
+| 91 | **APPLY** | Director, Enterprise Sales | Datadog | Michigan, USA, Remote; Ohio, USA, Remote; Pennsylvania, USA, Remote | greenhouse | [Apply](https://careers.datadoghq.com/detail/8195697/?gh_jid=8195697) |
 
 > Strong match — title: director; leadership: career development; cloud_platform: Observability, infrastructure platform; ai_agentic: AI, AI platform, AI infrastructure; infrastructure: Networking, infrastructure, edge; observability_security: Observability, Security
 
@@ -72,10 +76,6 @@ Discovered: 184 | Ranked >= 70: 85
 | 90 | **APPLY** | Staff Software Engineer, Developer Infrastructure (Test Infrastructure) | Coinbase | Remote - USA | greenhouse | [Apply](https://www.coinbase.com/careers/positions/7964410?gh_jid=7964410) |
 
 > Strong match — title: technical leadership; leadership: Architecture and technical strategy, engineering team, technical strategy, engineering strategy; cloud_platform: Distributed Systems, Platform Engineering, Observability, infrastructure platform; distributed_systems: Distributed Systems, distributed architecture, reliability engineering; ai_agentic: AI, Generative AI, AI platform, AI infrastructure; kubernetes_containers: Kubernetes, Containers
-
-| 90 | **APPLY** | Technical Lead - Application Development - Raleigh | Versana | Raleigh, NC | lever | [Apply](https://jobs.lever.co/Versana/7a0e2b12-b425-4c1f-bd5a-860e1e781170) |
-
-> Strong match — title: technical leadership; leadership: Engineering leadership, technical leadership, team leadership, lead engineers; cloud_platform: Cloud Infrastructure, Platform Engineering, cloud platform, cloud services; distributed_systems: Scalability, backend systems, reliability engineering; ai_agentic: AI; kubernetes_containers: Kubernetes, Docker
 
 | 88 | **APPLY** | Staff Software Engineer, Compute Platform (Routing) | Coinbase | Remote - USA | greenhouse | [Apply](https://www.coinbase.com/careers/positions/8160557?gh_jid=8160557) |
 
@@ -161,6 +161,10 @@ Discovered: 184 | Ranked >= 70: 85
 
 > Good match — title: technical leadership; leadership: Architecture and technical strategy, lead engineers, engineering team, technical strategy; cloud_platform: Distributed Systems, Platform Engineering, Security & Compliance, infrastructure platform; distributed_systems: Distributed Systems, distributed architecture, large-scale systems, backend systems; ai_agentic: AI, Generative AI, AI platform, AI infrastructure; infrastructure: infrastructure, edge
 
+| 82 | **REVIEW** | Staff Software Engineer- Wallets, Liquidity & Bridging | Coinbase | Remote - USA | greenhouse | [Apply](https://www.coinbase.com/careers/positions/8197831?gh_jid=8197831) |
+
+> Good match — title: technical leadership; leadership: Architecture and technical strategy, people management, engineering management, lead engineers; cloud_platform: Distributed Systems, Platform Engineering, Observability, infrastructure platform; distributed_systems: Distributed Systems, Microservices, distributed architecture, large-scale systems; ai_agentic: AI, Generative AI, AI platform, AI infrastructure; infrastructure: infrastructure
+
 | 81 | **REVIEW** | Senior Manager, Finance & Strategy | Coinbase | Remote - USA | greenhouse | [Apply](https://www.coinbase.com/careers/positions/7948222?gh_jid=7948222) |
 
 > Good match — title: Senior Engineering Manager; leadership: people management, team leadership, cross-functional, manager; ai_agentic: AI, Generative AI; infrastructure: data center; observability_security: Compliance; location: Remote
@@ -197,10 +201,6 @@ Discovered: 184 | Ranked >= 70: 85
 
 > Good match — title: technical leadership; leadership: Engineering leadership, Architecture and technical strategy, Mentoring and career development, people management; cloud_platform: Platform Engineering, infrastructure platform; distributed_systems: Scalability, reliability engineering; ai_agentic: AI, Generative AI, AI platform, AI infrastructure; devops_automation: Infrastructure as Code
 
-| 80 | **REVIEW** | Developer Advocate - Service Management | Datadog | California, USA, Remote; New York, USA, Remote | greenhouse | [Apply](https://careers.datadoghq.com/detail/8139662/?gh_jid=8139662) |
+| 81 | **REVIEW** | Full Stack Software Engineer | Versana | Raleigh, NC | lever | [Apply](https://jobs.lever.co/Versana/5da264a9-120d-45b5-8d7f-15e433c372fd) |
 
-> Good match — leadership: people management, engineering management, manage engineers, engineering team; cloud_platform: Cloud Infrastructure, Platform Engineering, DevOps, Observability; distributed_systems: reliability engineering; ai_agentic: AI, AI platform, AI infrastructure; kubernetes_containers: Containers; devops_automation: Infrastructure as Code, DevOps, automation
-
-| 80 | **REVIEW** | Senior Developer Advocate - Modern App Development | Datadog | California, USA, Remote; Nevada, USA, Remote; Texas, USA, Remote; Washington, USA, Remote | greenhouse | [Apply](https://careers.datadoghq.com/detail/7985840/?gh_jid=7985840) |
-
-> Good match — leadership: Engineering leadership, technical leadership, team leadership, manage engineers; cloud_platform: Cloud Platforms, Cloud Infrastructure, Platform Engineering, Observability; distributed_systems: Scalability; ai_agentic: AI, AI platform, AI infrastructure; kubernetes_containers: Cloud Native; devops_automation: Infrastructure as Code, deployment
+> Good match — leadership: engineering team, manager; cloud_platform: Cloud Platforms, Cloud Infrastructure, Platform Engineering, cloud platform; distributed_systems: Scalability, backend systems, reliability engineering; ai_agentic: Platform lifecycle automation, AI; kubernetes_containers: Kubernetes, Docker; devops_automation: CI/CD, Infrastructure as Code, automation, deployment
