@@ -1,7 +1,7 @@
 # Job Finder Report
 
-Generated: 2026-09-14T17:09:34.511575+00:00
-Discovered: 183 | Ranked >= 70: 86
+Generated: 2026-09-15T15:49:19.270367+00:00
+Discovered: 181 | Ranked >= 70: 86
 
 | Score | Action | Role | Company | Location | Source | Apply |
 |---:|---|---|---|---|---|---|
@@ -77,6 +77,10 @@ Discovered: 183 | Ranked >= 70: 86
 
 > Strong match — title: technical leadership; leadership: Architecture and technical strategy, engineering team, technical strategy, engineering strategy; cloud_platform: Distributed Systems, Platform Engineering, Observability, infrastructure platform; distributed_systems: Distributed Systems, distributed architecture, reliability engineering; ai_agentic: AI, Generative AI, AI platform, AI infrastructure; kubernetes_containers: Kubernetes, Containers
 
+| 89 | **APPLY** | Senior Performance Marketing Manager, Global Paid Social & Mobile UA | Coinbase | Remote - USA | greenhouse | [Apply](https://www.coinbase.com/careers/positions/8192485?gh_jid=8192485) |
+
+> Strong match — title: Senior Engineering Manager; leadership: people management, engineering management, engineering team, technical strategy; cloud_platform: Platform Engineering; ai_agentic: AI-driven testing, AI, Generative AI, LLM; devops_automation: automation; location: Remote
+
 | 88 | **APPLY** | Staff Software Engineer, Compute Platform (Routing) | Coinbase | Remote - USA | greenhouse | [Apply](https://www.coinbase.com/careers/positions/8160557?gh_jid=8160557) |
 
 > Strong match — title: technical leadership; leadership: engineering team, career development; cloud_platform: Distributed Systems, Platform Engineering, Observability, infrastructure platform; distributed_systems: Distributed Systems, Scalability, backend systems, reliability engineering; ai_agentic: AI, Generative AI, AI platform, AI infrastructure; kubernetes_containers: Kubernetes
@@ -112,10 +116,6 @@ Discovered: 183 | Ranked >= 70: 86
 | 84 | **REVIEW** | Senior Manager, Security Audit | Coinbase | Remote - USA | greenhouse | [Apply](https://www.coinbase.com/careers/positions/7997926?gh_jid=7997926) |
 
 > Good match — title: Senior Engineering Manager; leadership: Engineering leadership, people management, engineering management, technical leadership; ai_agentic: AI, Generative AI, AI/ML; infrastructure: storage, infrastructure; observability_security: Security, security engineering; location: Remote
-
-| 84 | **REVIEW** | Senior Software Engineer, Compute Platform | Coinbase | Remote - USA | greenhouse | [Apply](https://www.coinbase.com/careers/positions/7701645?gh_jid=7701645) |
-
-> Good match — leadership: people management, engineering management, engineering team; cloud_platform: Distributed Systems, Platform Engineering, Observability, infrastructure platform; distributed_systems: Distributed Systems, Scalability, reliability engineering; ai_agentic: AI, Generative AI, AI platform, AI infrastructure; kubernetes_containers: Kubernetes, Helm; devops_automation: automation, deployment
 
 | 84 | **REVIEW** |  Staff Infrastructure Engineer, Trading  | Coinbase | Remote - USA | greenhouse | [Apply](https://www.coinbase.com/careers/positions/8144769?gh_jid=8144769) |
 
