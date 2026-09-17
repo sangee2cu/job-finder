@@ -1,7 +1,7 @@
 # Job Finder Report
 
-Generated: 2026-09-16T15:41:04.478395+00:00
-Discovered: 180 | Ranked >= 70: 86
+Generated: 2026-09-17T15:46:52.923886+00:00
+Discovered: 180 | Ranked >= 70: 85
 
 | Score | Action | Role | Company | Location | Source | Apply |
 |---:|---|---|---|---|---|---|
@@ -54,10 +54,6 @@ Discovered: 180 | Ranked >= 70: 86
 > Strong match — title: technical leadership; leadership: Engineering leadership, technical leadership, team leadership, lead engineers; cloud_platform: Cloud Platforms, Cloud Infrastructure, Platform Engineering, cloud platform; distributed_systems: Scalability, backend systems, reliability engineering; ai_agentic: Platform lifecycle automation, AI; kubernetes_containers: Kubernetes, Docker
 
 | 91 | **APPLY** | Director, Enterprise Sales | Datadog | Michigan, USA, Remote; Ohio, USA, Remote; Pennsylvania, USA, Remote | greenhouse | [Apply](https://careers.datadoghq.com/detail/8195697/?gh_jid=8195697) |
-
-> Strong match — title: director; leadership: career development; cloud_platform: Observability, infrastructure platform; ai_agentic: AI, AI platform, AI infrastructure; infrastructure: Networking, infrastructure, edge; observability_security: Observability, Security
-
-| 91 | **APPLY** | Director, Enterprise Sales | Datadog | Texas, USA, Remote | greenhouse | [Apply](https://careers.datadoghq.com/detail/7773320/?gh_jid=7773320) |
 
 > Strong match — title: director; leadership: career development; cloud_platform: Observability, infrastructure platform; ai_agentic: AI, AI platform, AI infrastructure; infrastructure: Networking, infrastructure, edge; observability_security: Observability, Security
 
@@ -204,3 +200,7 @@ Discovered: 180 | Ranked >= 70: 86
 | 81 | **REVIEW** | Full Stack Software Engineer | Versana | Raleigh, NC | lever | [Apply](https://jobs.lever.co/Versana/5da264a9-120d-45b5-8d7f-15e433c372fd) |
 
 > Good match — leadership: engineering team, manager; cloud_platform: Cloud Platforms, Cloud Infrastructure, Platform Engineering, cloud platform; distributed_systems: Scalability, backend systems, reliability engineering; ai_agentic: Platform lifecycle automation, AI; kubernetes_containers: Kubernetes, Docker; devops_automation: CI/CD, Infrastructure as Code, automation, deployment
+
+| 80 | **REVIEW** | Developer Advocate - Service Management | Datadog | California, USA, Remote; New York, USA, Remote | greenhouse | [Apply](https://careers.datadoghq.com/detail/8139662/?gh_jid=8139662) |
+
+> Good match — leadership: people management, engineering management, manage engineers, engineering team; cloud_platform: Cloud Infrastructure, Platform Engineering, DevOps, Observability; distributed_systems: reliability engineering; ai_agentic: AI, AI platform, AI infrastructure; kubernetes_containers: Containers; devops_automation: Infrastructure as Code, DevOps, automation
