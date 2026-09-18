@@ -1,6 +1,6 @@
 # Job Finder Report
 
-Generated: 2026-09-17T15:46:52.923886+00:00
+Generated: 2026-09-18T15:20:00.730800+00:00
 Discovered: 180 | Ranked >= 70: 85
 
 | Score | Action | Role | Company | Location | Source | Apply |
@@ -157,6 +157,10 @@ Discovered: 180 | Ranked >= 70: 85
 
 > Good match — title: technical leadership; leadership: Architecture and technical strategy, lead engineers, engineering team, technical strategy; cloud_platform: Distributed Systems, Platform Engineering, Security & Compliance, infrastructure platform; distributed_systems: Distributed Systems, distributed architecture, large-scale systems, backend systems; ai_agentic: AI, Generative AI, AI platform, AI infrastructure; infrastructure: infrastructure, edge
 
+| 82 | **REVIEW** | Software Engineer, Developer Infrastructure | Coinbase | Remote - USA | greenhouse | [Apply](https://www.coinbase.com/careers/positions/7991839?gh_jid=7991839) |
+
+> Good match — leadership: engineering team, hiring; cloud_platform: Distributed Systems, Platform Engineering, Observability, infrastructure platform; distributed_systems: Distributed Systems, backend systems, reliability engineering; ai_agentic: AI, Generative AI, AI platform, AI infrastructure; kubernetes_containers: Kubernetes, Docker, Containers; devops_automation: CI/CD, Terraform, deployment
+
 | 82 | **REVIEW** | Staff Software Engineer- Wallets, Liquidity & Bridging | Coinbase | Remote - USA | greenhouse | [Apply](https://www.coinbase.com/careers/positions/8197831?gh_jid=8197831) |
 
 > Good match — title: technical leadership; leadership: Architecture and technical strategy, people management, engineering management, lead engineers; cloud_platform: Distributed Systems, Platform Engineering, Observability, infrastructure platform; distributed_systems: Distributed Systems, Microservices, distributed architecture, large-scale systems; ai_agentic: AI, Generative AI, AI platform, AI infrastructure; infrastructure: infrastructure
@@ -200,7 +204,3 @@ Discovered: 180 | Ranked >= 70: 85
 | 81 | **REVIEW** | Full Stack Software Engineer | Versana | Raleigh, NC | lever | [Apply](https://jobs.lever.co/Versana/5da264a9-120d-45b5-8d7f-15e433c372fd) |
 
 > Good match — leadership: engineering team, manager; cloud_platform: Cloud Platforms, Cloud Infrastructure, Platform Engineering, cloud platform; distributed_systems: Scalability, backend systems, reliability engineering; ai_agentic: Platform lifecycle automation, AI; kubernetes_containers: Kubernetes, Docker; devops_automation: CI/CD, Infrastructure as Code, automation, deployment
-
-| 80 | **REVIEW** | Developer Advocate - Service Management | Datadog | California, USA, Remote; New York, USA, Remote | greenhouse | [Apply](https://careers.datadoghq.com/detail/8139662/?gh_jid=8139662) |
-
-> Good match — leadership: people management, engineering management, manage engineers, engineering team; cloud_platform: Cloud Infrastructure, Platform Engineering, DevOps, Observability; distributed_systems: reliability engineering; ai_agentic: AI, AI platform, AI infrastructure; kubernetes_containers: Containers; devops_automation: Infrastructure as Code, DevOps, automation
